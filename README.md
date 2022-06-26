@@ -2,7 +2,7 @@
 
 ### AutoRepo is a simple, cli-based tool for automating the creation of github repositories.
 
-<br/><br/><br/>
+<br/><br/>
 
 # Installation
 
@@ -12,7 +12,7 @@
 $ sudo ./install.sh
 ```
 
-<br/><br/><br/>
+<br/><br/>
 
 # Usage
 
