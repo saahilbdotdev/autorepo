@@ -14,7 +14,7 @@ if __name__ == "__main__":
                       help="Login to your github account using access token.")
 
     parser.add_option('-r', '--repos', action="callback",
-                      callback=listRepositories, help="List all repositories of a user.")
+                      callback=listRepositories, help="List all the repositories of the authenticated user.")
 
     parser.add_option('--gitignore-templates', action="callback", callback=listGitignoreTemplates,
                       help="List all available gitignore templates.")
