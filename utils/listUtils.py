@@ -4,6 +4,8 @@ import json
 
 from .login import getToken
 
+licensesPath = Path(f"{Path.home()}/.config/autorepo/licenses.json")
+
 
 def listRepositories(option, opt_str, value, parser):
     token = getToken()
@@ -24,27 +26,28 @@ def listGitignoreTemplates(option, opt_str, value, parser):
 
 
 def listLicenses(option, opt_str, value, parser):
+    global licensesPath
+
     licenses = {}
     maxNameLength = 0
     maxKeywordLength = 0
 
-    try:
-        f = open(f"{Path.home()}/.config/autorepo/licenses.json", "r")
+    if licensesPath.exists():
+        f = licensesPath.open("r")
         data = json.load(f)
         f.close()
 
         maxNameLength = data['maxNameLength']
         maxKeywordLength = data['maxKeywordLength']
         licenses = data['licenses']
-
-    except FileNotFoundError:
+    else:
         token = getToken()
 
         if token:
             gh = Github(token)
             lics = gh.get_licenses()
 
-            f = open(f"{Path.home()}/.config/autorepo/licenses.json", "w")
+            f = licensesPath.open("w")
 
             for license in lics:
                 licenses[license.name] = license.key
