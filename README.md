@@ -9,7 +9,7 @@
 - Run the following command to install AutoRepo to your PC (Linux only)
 
 ```
-$ sudo ./install.sh
+$ ./install.sh
 ```
 
 <br/><br/>
@@ -32,4 +32,14 @@ Or
 
 ```
 $ repo -l
+```
+
+<br/><br/>
+
+# Uninstall
+
+- To uninstall AutoRepo, run the uninstall script:
+
+```
+$ sh /opt/autorepo/uninstall.sh
 ```
