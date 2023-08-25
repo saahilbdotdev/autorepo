@@ -6,10 +6,10 @@
 
 # Installation
 
-- Run the following command to install AutoRepo to your PC (Linux only)
+- Run the following command to install AutoRepo to your PC
 
 ```
-$ ./install.sh
+$ pip install autorepo
 ```
 
 <br/><br/>
@@ -32,14 +32,4 @@ Or
 
 ```
 $ repo -l
-```
-
-<br/><br/>
-
-# Uninstall
-
-- To uninstall AutoRepo, run the uninstall script:
-
-```
-$ sh /opt/autorepo/uninstall.sh
 ```

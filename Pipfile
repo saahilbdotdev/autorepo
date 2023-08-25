@@ -5,6 +5,7 @@ name = "pypi"
 
 [packages]
 pygithub = "*"
+keyring = "*"
 
 [dev-packages]
 autopep8 = "*"
