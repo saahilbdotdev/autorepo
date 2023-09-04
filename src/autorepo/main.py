@@ -3,10 +3,10 @@
 import optparse
 import sys
 
+from .commands import clone_repository as cr
 from .commands import (list_gitignore_templates, list_licenses,
-                               list_repositories, login, logout)
-from .utils import (clone_repository, create_repository,
-                            initiate_repository)
+                       list_repositories, login, logout)
+from .utils import clone_repository, create_repository, initiate_repository
 
 
 def run():
@@ -26,6 +26,15 @@ def run():
         action="callback",
         callback=logout,
         help="Log out of your github account."
+    )
+
+    parser.add_option(
+        '-c',
+        '--clone',
+        action="callback",
+        type="string",
+        callback=cr,
+        help="Clone the given repo to the current directory."
     )
 
     parser.add_option(

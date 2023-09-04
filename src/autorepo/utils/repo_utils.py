@@ -1,3 +1,4 @@
+import sys
 import subprocess
 
 from github import Github
@@ -35,15 +36,32 @@ def create_repository(name, description, license, gitignoreTemplate, isPrivate):
 
 
 def clone_repository(username, repoName):
-    print(
-        f"\nRunning 'git clone https://github.com/{username}/{repoName}.git'\n"
-    )
+    token = get_auth_token()
+
+    if token:
+        gh = Github(token)
+
+        try:
+            repo = gh.get_repo(f"{username}/{repoName}")
+            repoUrl = repo.clone_url
+        except Exception:
+            print("The given repository does not exist.")
+
+            sys.exit(1)
+    else:
+        print("Please login first!")
+        print("Run 'autorepo --login' to login.")
+        print("Run 'autorepo --help' for more information.")
+
+        sys.exit(1)
+
+    print(f"\nRunning 'git clone {repoUrl}'\n")
 
     subprocess.call(
-        ["git", "clone", f"https://github.com/{username}/{repoName}.git"]
+        ["git", "clone", repoUrl]
     )
 
-    print(f"\nSuccessfully cloned repository '{repoName}'.")
+    print(f"\nSuccessfully cloned repository '{repoName}/{repoName}'.")
 
 
 def initiate_repository(username, repoName):

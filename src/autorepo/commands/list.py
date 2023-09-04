@@ -1,25 +1,10 @@
 import json
+import sys
 from pathlib import Path
 
 from github import Github
 
 from ..utils import get_auth_token
-
-
-def list_repositories(option, opt_str, value, parser):
-    token = get_auth_token()
-
-    if token:
-        gh = Github(token)
-        user = gh.get_user()
-
-        repos = '\n'.join(repo.name for repo in user.get_repos())
-
-        print(repos)
-    else:
-        print("Please login first!")
-        print("Run 'autorepo --login' to login.")
-        print("Run 'autorepo --help' for more information.")
 
 
 def list_gitignore_templates(option, opt_str, value, parser):
@@ -29,6 +14,12 @@ def list_gitignore_templates(option, opt_str, value, parser):
         gh = Github(token)
 
         print('\n'.join(gh.get_gitignore_templates()))
+    else:
+        print("Please login first!")
+        print("Run 'autorepo --login' to login.")
+        print("Run 'autorepo --help' for more information.")
+
+        sys.exit(1)
 
 
 def list_licenses(option, opt_str, value, parser):
@@ -75,6 +66,12 @@ def list_licenses(option, opt_str, value, parser):
                     f,
                     indent=2
                 )
+        else:
+            print("Please login first!")
+            print("Run 'autorepo --login' to login.")
+            print("Run 'autorepo --help' for more information.")
+
+            sys.exit(1)
 
     print(f"License{' ' * (maxNameLength - len('License') + 2)}| Keyword")
     print("-" * (maxNameLength + 2) + "+-" + "-" * maxKeywordLength)
