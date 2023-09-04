@@ -22,7 +22,6 @@ def run():
 
     parser.add_option(
         '--logout',
-        '--logout',
         action="callback",
         callback=logout,
         help="Log out of your github account."
@@ -69,7 +68,6 @@ def run():
     )
 
     parser.add_option(
-        '--lic',
         '--license',
         dest="license",
         type="string",
