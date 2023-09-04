@@ -8,8 +8,8 @@ long_description = (here / "README.md").read_text(encoding="utf-8")
 
 setup(
     name="autorepo",
-    version="0.1.2",
-    description="A simple CLI tool for managing Github Repositories",
+    version="0.1.3",
+    description="A simple, CLI-based tool for easier management of github repositories",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/XanderWatson/autorepo",
