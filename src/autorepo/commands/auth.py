@@ -1,32 +1,37 @@
 import getpass
-import sys
 
+import click
 from github import BadCredentialsException, Github
 
 from ..utils import delete_auth_token, set_auth_token
 
 
-def login(option, opt_str, value, parser):
-    print(
-        "Please enter your github access token to login with your GitHub account:\n"
-    )
+@click.command(
+    name="login",
+    help="Log in to GitHub using a Personal Access Token"
+)
+def login_cmd():
+    click.echo("Please enter your GitHub Personal Access Token")
     token = getpass.getpass(prompt="Token: ")
 
     try:
         gh = Github(token)
+        username = gh.get_user().login
     except BadCredentialsException:
-        print("Invalid token. Please try again.")
+        click.echo("Invalid token", err=True)
 
-        sys.exit(1)
-
-    username = gh.get_user().login
+        return
 
     set_auth_token(token)
 
-    print(f"\nSuccessfully logged into {username}'s account!")
+    click.echo(f"Logged in as {username}")
 
 
-def logout(option, opt_str, value, parser):
+@click.command(
+    name="logout",
+    help="Log out of GitHub"
+)
+def logout_cmd():
     delete_auth_token()
 
-    print(f"\nLogged out successfully!")
+    click.echo("Logged out")
