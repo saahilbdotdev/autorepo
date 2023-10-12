@@ -8,15 +8,14 @@ long_description = (here / "README.md").read_text(encoding="utf-8")
 
 setup(
     name="autorepo",
-    version="0.1.2",
-    description="A simple CLI tool for managing Github Repositories",
+    version="0.1.4",
+    description="AutoRepo is a simple, cli-based tool for creating github repositories, without leaving your terminal!",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/XanderWatson/autorepo",
     author="Saahil Bhavsar",
     author_email="saahil_bhavsar@outlook.com",
     classifiers=[
-        "Development Status :: 3 - Alpha",
         "Environment :: Console",
         "Intended Audience :: Developers",
         "License :: OSI Approved :: MIT License",
@@ -35,10 +34,10 @@ setup(
     package_dir={"": "src"},
     packages=find_packages(where="src"),
     python_requires=">=3.7, <4",
-    install_requires=["pygithub", "keyring"],
+    install_requires=["click", "keyring", "pygithub"],
     entry_points={
         "console_scripts": [
-            "repo=autorepo:main",
+            "repo=autorepo:autorepo",
         ],
     },
     project_urls={
