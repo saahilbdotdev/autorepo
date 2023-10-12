@@ -1,85 +1,60 @@
-import json
-from pathlib import Path
-
+import click
 from github import Github
 
-from ..utils import get_auth_token
+from ..utils import (get_auth_token, list_gitignore_templates, list_licenses,
+                     list_repositories)
 
 
-def list_repositories(option, opt_str, value, parser):
+@click.group(
+    name="list",
+    help="List artifacts from GitHub"
+)
+def list_group():
+    pass
+
+
+@click.command(
+    name="licenses",
+    help="List the licenses available on GitHub"
+)
+def licenses_cmd():
+    list_licenses()
+
+
+@click.command(
+    name="gitignore",
+    help="List the gitignore templates available on GitHub"
+)
+def gitignore_cmd():
+    list_gitignore_templates()
+
+
+@click.command(
+    name="repositories",
+    help="List the repositories of a user"
+)
+@click.option(
+    "--user",
+    "-u",
+    help="The user whose repositories to list; defaults to the logged in user",
+    default=None
+)
+def repositories_cmd(user):
     token = get_auth_token()
 
-    if token:
-        gh = Github(token)
-        user = gh.get_user()
-
-        repos = '\n'.join(repo.name for repo in user.get_repos())
-
-        print(repos)
-    else:
-        print("Please login first!")
-        print("Run 'autorepo --login' to login.")
-        print("Run 'autorepo --help' for more information.")
-
-
-def list_gitignore_templates(option, opt_str, value, parser):
-    token = get_auth_token()
-
-    if token:
-        gh = Github(token)
-
-        print('\n'.join(gh.get_gitignore_templates()))
-
-
-def list_licenses(option, opt_str, value, parser):
-    configPath = Path(f"{Path.home()}/.config/autorepo")
-    licensesPath = Path(f"{str(configPath)}/licenses.json")
-
-    licenses = {}
-    maxNameLength = 0
-    maxKeywordLength = 0
-
-    if licensesPath.exists():
-        with licensesPath.open("r") as f:
-            data = json.load(f)
-
-        maxNameLength = data['maxNameLength']
-        maxKeywordLength = data['maxKeywordLength']
-
-        licenses = data['licenses']
-    else:
-        configPath.mkdir()
-
-        token = get_auth_token()
-
-        if token:
-            gh = Github(token)
-            lics = gh.get_licenses()
-
-            with licensesPath.open("w") as f:
-                for license in lics:
-                    licenses[license.name] = license.key
-
-                    if len(license.name) > maxNameLength:
-                        maxNameLength = len(license.name)
-
-                    if len(license.key) > maxKeywordLength:
-                        maxKeywordLength = len(license.key)
-
-                json.dump(
-                    {
-                        'maxNameLength': maxNameLength,
-                        'maxKeywordLength': maxKeywordLength,
-                        'licenses': licenses
-                    },
-                    f,
-                    indent=2
-                )
-
-    print(f"License{' ' * (maxNameLength - len('License') + 2)}| Keyword")
-    print("-" * (maxNameLength + 2) + "+-" + "-" * maxKeywordLength)
-
-    for license in licenses:
-        print(
-            f"{license}{(maxNameLength - len(license) + 2) * ' '}| {licenses[license]}"
+    if not token:
+        click.echo(
+            "You must be logged in to list repositories",
+            err=True
         )
+
+        return
+
+    gh = Github(token)
+
+    list_repositories(gh, user)
+
+
+list_group.add_command(licenses_cmd)
+list_group.add_command(gitignore_cmd)
+list_group.add_command(repositories_cmd)
