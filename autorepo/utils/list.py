@@ -106,8 +106,8 @@ def pretty_print_repositories(item_dict):
         click.echo(repo_str)
 
 
-def list_licenses():
-    token = get_auth_token()
+def list_licenses(user):
+    token = get_auth_token(user)
 
     if not token:
         click.echo(
@@ -126,8 +126,8 @@ def list_licenses():
     pretty_print_licenses(dict(zip(names, keys)))
 
 
-def list_gitignore_templates():
-    token = get_auth_token()
+def list_gitignore_templates(user):
+    token = get_auth_token(user)
 
     if not token:
         click.echo(

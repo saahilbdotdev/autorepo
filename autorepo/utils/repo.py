@@ -3,11 +3,20 @@ import subprocess
 import click
 from github import Github
 
-from autorepo.utils.auth import get_auth_token
+from autorepo.utils.auth import get_auth_token, get_current_user
 
 
 def clone_repo(url=None, user=None, repo=None):
-    token = get_auth_token()
+    username = get_current_user()
+    if not username:
+        click.echo(
+            "You must be logged in to clone a repository",
+            err=True
+        )
+
+        return None
+
+    token = get_auth_token(username)
 
     gh = Github(token)
 
@@ -61,7 +70,16 @@ def create_repo(
     organization=None,
     private=False
 ):
-    token = get_auth_token()
+    username = get_current_user()
+    if not username:
+        click.echo(
+            "You must be logged in to clone a repository",
+            err=True
+        )
+
+        return None
+
+    token = get_auth_token(username)
 
     if not token:
         click.echo(
@@ -125,7 +143,16 @@ def add_remote(url, name="origin"):
 
 
 def delete_repo(name, organization=None):
-    token = get_auth_token()
+    username = get_current_user()
+    if not username:
+        click.echo(
+            "You must be logged in to clone a repository",
+            err=True
+        )
+
+        return None
+
+    token = get_auth_token(username)
 
     if not token:
         click.echo(
