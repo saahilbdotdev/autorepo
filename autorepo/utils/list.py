@@ -1,7 +1,7 @@
 import click
 from github import Github
 
-from .auth import get_auth_token
+from autorepo.utils.auth import get_auth_token
 
 
 def pretty_print_licenses(item_dict):

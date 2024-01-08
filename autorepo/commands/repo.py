@@ -1,6 +1,7 @@
 import click
 
-from ..utils import add_remote, clone_repo, create_repo, init_repo
+from autorepo.utils import (add_remote, clone_repo, create_repo, delete_repo,
+                            init_repo)
 
 
 @click.command(
@@ -142,3 +143,28 @@ def create_cmd(
         return
 
     click.echo("Repository created and cloned successfully")
+
+
+@click.command(
+    name="delete",
+    help="Delete a repository"
+)
+@click.argument(
+    "name",
+    required=True
+)
+@click.option(
+    "--organization",
+    "-o",
+    default=None,
+    help="Delete the repository from an organization"
+)
+def delete_cmd(name, organization):
+    retcode = delete_repo(name, organization)
+
+    if retcode is None:
+        click.echo("Failed to delete the repository", err=True)
+
+        return
+
+    click.echo("Repository deleted successfully")

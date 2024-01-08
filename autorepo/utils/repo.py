@@ -3,7 +3,7 @@ import subprocess
 import click
 from github import Github
 
-from .auth import get_auth_token
+from autorepo.utils.auth import get_auth_token
 
 
 def clone_repo(url=None, user=None, repo=None):
@@ -120,5 +120,46 @@ def add_remote(url, name="origin"):
         return None
 
     click.echo("Remote added successfully")
+
+    return 0
+
+
+def delete_repo(name, organization=None):
+    token = get_auth_token()
+
+    if not token:
+        click.echo(
+            "You must be logged in to delete a repository",
+            err=True
+        )
+
+        return None
+
+    gh = Github(token)
+
+    if organization:
+        try:
+            user = gh.get_organization(organization)
+        except Exception:
+            click.echo(
+                "The organization provided does not exist",
+                err=True
+            )
+
+            return None
+    else:
+        user = gh.get_user()
+
+    try:
+        repo = gh.get_repo(f"{user.login}/{name}")
+    except Exception:
+        click.echo(
+            "The repository provided does not exist",
+            err=True
+        )
+
+        return None
+
+    repo.delete()
 
     return 0

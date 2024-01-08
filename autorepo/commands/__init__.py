@@ -1,8 +1,8 @@
 import click
 
-from .auth import login_cmd, logout_cmd
-from .list import list_group
-from .repo import clone_cmd, create_cmd
+from autorepo.commands.auth import login_cmd, logout_cmd
+from autorepo.commands.list import list_group
+from autorepo.commands.repo import clone_cmd, create_cmd, delete_cmd
 
 
 @click.group(
@@ -17,3 +17,4 @@ autorepo.add_command(logout_cmd)
 autorepo.add_command(list_group)
 autorepo.add_command(clone_cmd)
 autorepo.add_command(create_cmd)
+autorepo.add_command(delete_cmd)

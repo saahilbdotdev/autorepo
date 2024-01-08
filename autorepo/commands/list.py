@@ -1,8 +1,8 @@
 import click
 from github import Github
 
-from ..utils import (get_auth_token, list_gitignore_templates, list_licenses,
-                     list_repositories)
+from autorepo.utils import (get_auth_token, list_gitignore_templates,
+                            list_licenses, list_repositories, list_users)
 
 
 @click.group(
@@ -11,6 +11,24 @@ from ..utils import (get_auth_token, list_gitignore_templates, list_licenses,
 )
 def list_group():
     pass
+
+
+@click.command(
+    name="users",
+    help="List the users that have logged in to autorepo"
+)
+def users_cmd():
+    users = list_users()
+
+    if not users:
+        click.echo("No users have logged in to autorepo")
+
+        return
+
+    click.echo("Users:\n")
+
+    for user in users:
+        click.echo(f"{user}\n")
 
 
 @click.command(
@@ -55,6 +73,7 @@ def repositories_cmd(user):
     list_repositories(gh, user)
 
 
+list_group.add_command(users_cmd)
 list_group.add_command(licenses_cmd)
 list_group.add_command(gitignore_cmd)
 list_group.add_command(repositories_cmd)
