@@ -1,8 +1,9 @@
 import click
 from github import Github
 
-from autorepo.utils import (get_auth_token, list_gitignore_templates,
-                            list_licenses, list_repositories, list_users)
+from autorepo.utils import (get_auth_token, get_current_user,
+                            list_gitignore_templates, list_licenses,
+                            list_repositories, list_users)
 
 
 @click.group(
@@ -36,7 +37,17 @@ def users_cmd():
     help="List the licenses available on GitHub"
 )
 def licenses_cmd():
-    list_licenses()
+    if not get_current_user():
+        click.echo(
+            "You must be logged in to list licenses",
+            err=True
+        )
+
+        return
+
+    user = get_current_user()
+
+    list_licenses(user)
 
 
 @click.command(
@@ -44,7 +55,17 @@ def licenses_cmd():
     help="List the gitignore templates available on GitHub"
 )
 def gitignore_cmd():
-    list_gitignore_templates()
+    if not get_current_user():
+        click.echo(
+            "You must be logged in to list gitignore templates",
+            err=True
+        )
+
+        return
+
+    user = get_current_user()
+
+    list_gitignore_templates(user)
 
 
 @click.command(
@@ -58,7 +79,18 @@ def gitignore_cmd():
     default=None
 )
 def repositories_cmd(user):
-    token = get_auth_token()
+    if not user:
+        user = get_current_user()
+
+        if not user:
+            click.echo(
+                "You must be logged in to list repositories",
+                err=True
+            )
+
+            return
+
+    token = get_auth_token(user)
 
     if not token:
         click.echo(

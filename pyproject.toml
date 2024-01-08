@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "autorepo"
-version = "0.1.5"
+version = "0.1.6"
 description = "AutoRepo is a simple, cli-based tool for creating github repositories, without leaving your terminal!"
 authors = ["XanderWatson <saahil_bhavsar@outlook.com>"]
 readme = "README.md"
