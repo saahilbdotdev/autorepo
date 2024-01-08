@@ -1,0 +1,45 @@
+[tool.poetry]
+name = "autorepo"
+version = "0.1.5"
+description = "AutoRepo is a simple, cli-based tool for creating github repositories, without leaving your terminal!"
+authors = ["XanderWatson <saahil_bhavsar@outlook.com>"]
+readme = "README.md"
+license = "MIT"
+homepage = "https://github.com/saahilb-tech/autorepo"
+repository = "https://github.com/saahilb-tech/autorepo"
+classifiers = [
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: Software Development :: Version Control :: Git",
+    "Topic :: Utilities",
+]
+
+[tool.poetry.urls]
+"Funding" = "https://buymeacoffee.com/saahilb"
+"Bug Reports" = "https://github.com/saahilb-tech/autorepo/issues"
+
+[tool.poetry.scripts]
+repo = "autorepo:autorepo"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+click = "^8.1.7"
+pygithub = "^2.1.1"
+keyring = "^24.3.0"
+
+[tool.poetry.group.dev.dependencies]
+autopep8 = "^2.0.4"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

@@ -1,6 +1,6 @@
-# AutoRepo
+# AutoRepo (v0.1.5)
 
-### AutoRepo is a simple, cli-based tool for creating github repositories, without leaving your terminal!
+### AutoRepo is a simple, cli-based tool for creating GitHub repositories, without leaving your terminal!
 
 # Installation
 
@@ -24,7 +24,7 @@ $ pipx install autorepo
 $ repo --help
 ```
 
-- Using any command (displayed in the help message) requires you to first be logged in to your github account using a Personal Access Token (this is a one-time thing). You can generate a PAT by following the instructions <a href="https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/">here</a>:
+- Using any command (displayed in the help message) requires you to first be logged in to your GitHub account using a Personal Access Token (this is a one-time thing). You can generate a PAT by following the instructions <a href="https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/">here</a>:
 
 ```
 $ repo login
@@ -36,14 +36,14 @@ $ repo login
 $ repo create [OPTIONS] NAME
 ```
 
-- To convert an existing project directory into a github repository, run the following command (the `-e` flag is used to specify that the directory contains an existing project):
+- To convert an existing project directory into a GitHub repository, run the following command (the `-e` flag is used to specify that the directory contains an existing project):
 
 ```
 $ cd <project_directory>
 $ repo create -e [OPTIONS] NAME
 ```
 
-- To logout of your github account, run the following command:
+- To logout of your GitHub account, run the following command:
 
 ```
 $ repo logout
