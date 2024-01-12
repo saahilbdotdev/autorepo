@@ -5,7 +5,7 @@ from github import BadCredentialsException, Github
 
 from autorepo.utils import (add_user, delete_auth_token, get_current_user,
                             remove_user, set_auth_token, set_current_user,
-                            token_exists)
+                            set_default_current_user, token_exists)
 
 
 @click.command(
@@ -40,6 +40,7 @@ def login_cmd():
 )
 def logout_cmd():
     current_user = get_current_user()
+
     if not current_user:
         click.echo("You are not logged in to any GitHub account", err=True)
 
@@ -47,6 +48,7 @@ def logout_cmd():
 
     delete_auth_token(current_user)
     remove_user(current_user)
+    set_default_current_user()
 
     click.echo(f"Logged out of {current_user}")
 
