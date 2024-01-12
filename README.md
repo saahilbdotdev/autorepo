@@ -1,4 +1,4 @@
-# AutoRepo (v0.1.7)
+# AutoRepo (v0.1.8)
 
 ### AutoRepo is a simple, cli-based tool for creating GitHub repositories, without leaving your terminal!
 
