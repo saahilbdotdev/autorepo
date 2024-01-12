@@ -21,15 +21,16 @@ def list_group():
 def users_cmd():
     users = list_users()
 
-    if not users:
+    if len(users) == 0:
         click.echo("No users have logged in to autorepo")
 
         return
 
-    click.echo("Users:\n")
+    click.echo(f"{len(users)} user(s) have logged in to autorepo\n")
+    click.echo("Users:")
 
-    for user in users:
-        click.echo(f"{user}\n")
+    for i, user in enumerate(users):
+        click.echo(f"{i+1}: {user}")
 
 
 @click.command(
