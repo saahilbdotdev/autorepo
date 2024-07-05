@@ -6,7 +6,7 @@ from github import Github
 from autorepo.utils.auth import get_auth_token, get_current_user
 
 
-def clone_repo(url=None, user=None, repo=None):
+def clone_repo(url=None, user=None, repo=None, extra_args=[]):
     username = get_current_user()
     if not username:
         click.echo(
@@ -59,7 +59,7 @@ def clone_repo(url=None, user=None, repo=None):
 
         return None
 
-    return subprocess.call(["git", "clone", url])
+    return subprocess.call(["git", "clone", *extra_args, url])
 
 
 def create_repo(
@@ -116,8 +116,8 @@ def create_repo(
     return repo
 
 
-def init_repo():
-    retcode = subprocess.call(["git", "init"])
+def init_repo(extra_args=[]):
+    retcode = subprocess.call(["git", "init", *extra_args])
 
     if retcode is None or retcode != 0:
         click.echo("Failed to initialize the repository", err=True)
@@ -188,5 +188,45 @@ def delete_repo(name, organization=None):
         return None
 
     repo.delete()
+
+    return 0
+
+
+def update_repo(repo_name, visibility):
+    current_user = get_current_user()
+
+    token = get_auth_token(current_user)
+    if not token:
+        click.echo(
+            "You must be logged in to update a repository",
+            err=True
+        )
+
+        return None
+
+    gh = Github(token)
+
+    try:
+        repo = gh.get_repo(repo_name)
+    except Exception:
+        click.echo(
+            "The repository provided does not exist",
+            err=True
+        )
+
+        return None
+
+    for collaborator in repo.get_collaborators():
+        if collaborator.login == current_user:
+            break
+    else:
+        click.echo(
+            "You do not have permission to update this repository",
+            err=True
+        )
+
+        return None
+
+    repo.edit(visibility=visibility)
 
     return 0
