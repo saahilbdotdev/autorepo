@@ -1,8 +1,8 @@
 [tool.poetry]
 name = "autorepo"
-version = "0.1.8"
+version = "0.1.9"
 description = "AutoRepo is a simple, cli-based tool for creating github repositories, without leaving your terminal!"
-authors = ["XanderWatson <saahil_bhavsar@outlook.com>"]
+authors = ["SaahilNotSahil <saahil_bhavsar@outlook.com>"]
 readme = "README.md"
 license = "MIT"
 homepage = "https://github.com/saahilb-tech/autorepo"
@@ -35,7 +35,6 @@ repo = "autorepo:autorepo"
 python = "^3.11"
 click = "^8.1.7"
 pygithub = "^2.1.1"
-keyring = "^24.3.0"
 
 [tool.poetry.group.dev.dependencies]
 autopep8 = "^2.0.4"

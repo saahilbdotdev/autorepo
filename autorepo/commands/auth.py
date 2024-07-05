@@ -24,11 +24,10 @@ def login_cmd():
 
         return
 
-    set_auth_token(username, token)
+    add_user(username, token)
 
     click.echo(f"Logged in as {username}")
 
-    add_user(username)
     set_current_user(username)
 
     click.echo(f"{username} is now the current user")

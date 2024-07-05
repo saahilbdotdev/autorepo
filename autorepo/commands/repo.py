@@ -1,7 +1,7 @@
 import click
 
 from autorepo.utils import (add_remote, clone_repo, create_repo, delete_repo,
-                            init_repo)
+                            init_repo, update_repo)
 
 
 @click.command(
@@ -168,3 +168,27 @@ def delete_cmd(name, organization):
         return
 
     click.echo("Repository deleted successfully")
+
+
+@click.command(
+    name="update",
+    help="Update a repository"
+)
+@click.argument(
+    "name",
+    required=True,
+)
+@click.option(
+    "--visibility",
+    default="private",
+    help="Repository visibility"
+)
+def update_cmd(name, visibility):
+    retcode = update_repo(name, visibility)
+
+    if retcode is None:
+        click.echo("Failed to update the repository", err=True)
+
+        return
+
+    click.echo("Repository updated successfully")

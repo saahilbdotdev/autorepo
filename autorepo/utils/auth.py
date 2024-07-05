@@ -1,96 +1,90 @@
-import keyring
+from autorepo.utils.config import Config
 
 
 def get_auth_token(username: str) -> str | None:
-    try:
-        token = keyring.get_password("autorepo", f"gh_token_{username}")
-    except Exception:
+    config = Config()
+
+    if username not in config.users:
         return None
+
+    token = config.users.get(username)
 
     return token
 
 
 def token_exists(username: str) -> bool:
-    return get_auth_token(username) is not None
+    config = Config()
+
+    return config.users.get(username, "") != ""
 
 
-def set_auth_token(username: str, token: str) -> bool:
-    try:
-        keyring.set_password("autorepo", f"gh_token_{username}", token)
+def set_auth_token(username: str, token: str) -> None:
+    config = Config()
 
-        return True
-    except Exception:
-        return False
+    config.users[username] = token
+
+    config.write_config()
 
 
 def delete_auth_token(username: str) -> bool:
-    if not token_exists(username):
+    config = Config()
+
+    if username not in config.users:
         return False
 
-    try:
-        keyring.delete_password("autorepo", f"gh_token_{username}")
+    config.users[username] = ""
 
-        return True
-    except Exception:
-        return False
+    config.write_config()
+
+    return True
 
 
 def set_current_user(username: str) -> bool:
     if not token_exists(username):
         return False
 
-    try:
-        keyring.set_password("autorepo", "current_user", username)
+    config = Config()
 
-        return True
-    except Exception:
-        return False
+    config.current_user = username
+
+    config.write_config()
+
+    return True
 
 
 def get_current_user() -> str | None:
-    try:
-        username = keyring.get_password("autorepo", "current_user")
-    except Exception:
-        return None
+    config = Config()
 
-    return username
+    return config.current_user
 
 
 def delete_current_user() -> bool:
-    try:
-        keyring.delete_password("autorepo", "current_user")
+    config = Config()
 
-        return True
-    except Exception:
+    if config.current_user == "":
         return False
+
+    config.current_user = ""
+
+    config.write_config()
+
+    return True
 
 
 def list_users() -> list:
-    try:
-        users = keyring.get_password("autorepo", "all_users")
-        if users == "" or users == " " or users is None:
-            return []
+    config = Config()
 
-        users = users.split(";")
-
-        return users
-    except Exception:
-        return []
+    return list(config.users.keys())
 
 
-def add_user(username: str) -> bool:
+def add_user(username: str, token: str) -> bool:
     users = list_users()
     if username in users:
         return False
 
-    users.append(username)
+    set_auth_token(username, token)
 
-    try:
-        keyring.set_password("autorepo", "all_users", ";".join(users))
-
-        return True
-    except Exception:
-        return False
+    return True
 
 
 def remove_user(username: str) -> bool:
@@ -98,14 +92,13 @@ def remove_user(username: str) -> bool:
     if username not in users:
         return False
 
-    users.pop(users.index(username))
+    config = Config()
 
-    try:
-        keyring.set_password("autorepo", "all_users", ";".join(users))
+    config.users.pop(username)
 
-        return True
-    except Exception:
-        return False
+    config.write_config()
+
+    return True
 
 
 def set_default_current_user() -> bool:
@@ -116,11 +109,3 @@ def set_default_current_user() -> bool:
         return False
 
     return set_current_user(users[0])
-
-
-if __name__ == "__main__":
-    print(list_users())
-    print(len(list_users()))
-    print(get_current_user())
-    print(delete_current_user())
-    print(get_current_user())
