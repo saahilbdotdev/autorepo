@@ -5,8 +5,8 @@ description = "AutoRepo is a simple, cli-based tool for creating github reposito
 authors = ["SaahilNotSahil <saahil_bhavsar@outlook.com>"]
 readme = "README.md"
 license = "MIT"
-homepage = "https://github.com/saahilb-tech/autorepo"
-repository = "https://github.com/saahilb-tech/autorepo"
+homepage = "https://github.com/saahilbdotdev/autorepo"
+repository = "https://github.com/saahilbdotdev/autorepo"
 classifiers = [
     "Environment :: Console",
     "Intended Audience :: Developers",
@@ -26,7 +26,7 @@ classifiers = [
 
 [tool.poetry.urls]
 "Funding" = "https://buymeacoffee.com/saahilb"
-"Bug Reports" = "https://github.com/saahilb-tech/autorepo/issues"
+"Bug Reports" = "https://github.com/saahilbdotdev/autorepo/issues"
 
 [tool.poetry.scripts]
 repo = "autorepo:autorepo"
